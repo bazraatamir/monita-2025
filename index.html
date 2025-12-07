@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ransom Note</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Metal+Mania&family=Nosifer&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            background: linear-gradient(135deg, #CC0000, #800000);
+            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            font-family: 'Special Elite', cursive;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            body {
+                padding: 5px;
+            }
+        }
+        
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            pointer-events: none;
+            z-index: 1000;
+            user-select: none;
+            animation: fall linear infinite;
+            will-change: transform;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .paper-wrapper {
+            position: relative;
+            display: inline-block;
+            max-width: calc(100vw - 10px);
+            max-height: 95vh;
+        }
+        
+        @media (max-width: 360px) {
+            .paper-wrapper {
+                max-width: calc(100vw - 10px);
+            }
+        }
+
+        .lights-container {
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            right: -40px;
+            bottom: -40px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .lights-container {
+                top: -25px;
+                left: -25px;
+                right: -25px;
+                bottom: -25px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .lights-container {
+                top: -15px;
+                left: -15px;
+                right: -15px;
+                bottom: -15px;
+            }
+        }
+
+        .light {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+            animation: glow 1.5s infinite alternate;
+        }
+        
+        @media (max-width: 768px) {
+            .light {
+                width: 16px;
+                height: 16px;
+                box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .light {
+                width: 12px;
+                height: 12px;
+                box-shadow: 0 0 8px currentColor, 0 0 15px currentColor;
+            }
+        }
+
+        @keyframes glow {
+            0% { 
+                opacity: 0.7; 
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1.2);
+                filter: brightness(1.5);
+            }
+        }
+
+        .wire-segment {
+            position: absolute;
+            height: 2px;
+            background: #2a2a2a;
+            transform-origin: left center;
+        }
+
+        .paper {
+            background-color: #fdfdfd;
+            padding: 40px 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            transform: rotate(-1deg);
+            background-image: repeating-linear-gradient(
+                white 0px, 
+                white 34px, 
+                #d4d4d4 35px
+            );
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .paper {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .paper {
+                padding: 15px 10px;
+            }
+        }
+
+        .tape {
+            position: absolute;
+            background: rgba(255, 248, 220, 0.7);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tape-tl {
+            top: -10px;
+            left: 30px;
+            width: 80px;
+            height: 30px;
+            transform: rotate(-15deg);
+        }
+
+        .tape-tr {
+            top: -10px;
+            right: 30px;
+            width: 80px;
+            height: 30px;
+            transform: rotate(15deg);
+        }
+
+        .tape-bl {
+            bottom: -10px;
+            left: 30px;
+            width: 80px;
+            height: 30px;
+            transform: rotate(15deg);
+        }
+
+        .tape-br {
+            bottom: -10px;
+            right: 30px;
+            width: 80px;
+            height: 30px;
+            transform: rotate(-15deg);
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ransom-message {
+            text-align: center;
+            font-size: 1.5rem;
+            line-height: 2.2;
+        }
+        
+        @media (max-width: 768px) {
+            .ransom-message {
+                font-size: 1rem;
+                line-height: 1.9;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .ransom-message {
+                font-size: 0.75rem;
+                line-height: 1.7;
+            }
+        }
+
+        .line {
+            margin: 20px 0;
+        }
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed #333;
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .title {
+                font-size: 1rem;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+                border-bottom: 1px dashed #333;
+            }
+        }
+
+        .r-char {
+            display: inline-block;
+            padding: 4px 6px;
+            margin: 2px;
+            color: #000;
+            background-color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            border: 2px solid transparent;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            --rotate-deg: 0deg;
+            --scale-factor: 1;
+            transform: rotate(var(--rotate-deg)) scale(var(--scale-factor));
+            font-family: 'Arial Black', sans-serif;
+            transition: transform 0.2s;
+        }
+        
+        @media (max-width: 768px) {
+            .r-char {
+                padding: 3px 4px;
+                margin: 1.5px;
+                font-size: 0.95em;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .r-char {
+                padding: 2px 3px;
+                margin: 1px;
+                font-size: 0.85em;
+                box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            }
+        }
+
+        .r-char:hover {
+            transform: rotate(var(--rotate-deg)) scale(calc(var(--scale-factor) * 1.15));
+            z-index: 10;
+        }
+
+        /* Дэвсгэр өнгө ба Үсгийн өнгө */
+        .r-char:nth-child(7n+1) { background-color: #ff4757; color: white; }
+        .r-char:nth-child(7n+2) { background-color: #2ed573; color: black; border: 2px solid #000;}
+        .r-char:nth-child(7n+3) { background-color: #1e90ff; color: white; }
+        .r-char:nth-child(7n+4) { background-color: #ffa502; color: black; }
+        .r-char:nth-child(7n+5) { background-color: #000000; color: white; border: 1px dashed white;}
+        .r-char:nth-child(7n+6) { background-color: #8e44ad; color: white; }
+        .r-char:nth-child(5n+3) { background-color: #f1c40f; color: black; }
+
+        /* Фонтын төрөл */
+        .r-char:nth-child(3n+1) { font-family: 'Times New Roman', serif; font-style: italic; }
+        .r-char:nth-child(4n+2) { font-family: 'Creepster', cursive; font-size: 1.1em;}
+        .r-char:nth-child(5n+1) { font-family: 'Metal Mania', cursive; }
+        .r-char:nth-child(6n+4) { font-family: 'Nosifer', cursive; font-size: 0.9em;}
+        .r-char:nth-child(odd) { font-family: 'Courier New', monospace; font-weight: 900;}
+
+        /* Эргэлт ба Хэмжээ */
+        .r-char:nth-child(odd)  { --rotate-deg: 3deg;  --scale-factor: 1.05; }
+        .r-char:nth-child(even) { --rotate-deg: -2deg; --scale-factor: 0.95; }
+        .r-char:nth-child(3n)   { --rotate-deg: -5deg; }
+        .r-char:nth-child(4n)   { --rotate-deg: 4deg;  --scale-factor: 1.1; }
+        .r-char:nth-child(5n)   { --rotate-deg: 1deg; z-index: 1; position: relative;}
+    </style>
+</head>
+<body>
+    <div class="paper-wrapper">
+        <audio id="background-music" loop preload="auto">
+        <source src="Jingle Bell RockBobby Helms 1957.mp3" type="audio/mpeg">
+        <source src="Jingle Bell RockBobby Helms 1957.ogg" type="audio/ogg">
+        Таны хөтөч аудио элементийг дэмжихгүй байна.
+    </audio>
+        <div class="lights-container" id="lights"></div>
+        
+        <div class="paper">
+            <div class="tape tape-tl"></div>
+            <div class="tape tape-tr"></div>
+            <div class="tape tape-bl"></div>
+            <div class="tape tape-br"></div>
+            
+            <div class="content">
+                <div class="ransom-message">
+                    <div class="title">
+                        <span class="r-char">Ө</span><span class="r-char">д</span><span class="r-char">р</span><span class="r-char">и</span><span class="r-char">й</span><span class="r-char">н</span>
+                        &nbsp;
+                        <span class="r-char">м</span><span class="r-char">э</span><span class="r-char">н</span><span class="r-char">д</span>
+                        &nbsp;
+                        <br>
+                        <span class="r-char">х</span><span class="r-char">ү</span><span class="r-char">р</span><span class="r-char">г</span><span class="r-char">э</span><span class="r-char">э</span><span class="r-char">!</span>
+                    </div>
+                    <div id="text">
+                        <span class="r-char">Э</span><span class="r-char">н</span><span class="r-char">э</span>
+                        &nbsp;
+                        <span class="r-char">б</span><span class="r-char">э</span><span class="r-char">л</span><span class="r-char">э</span><span class="r-char">г</span>
+                        &nbsp;
+                        <span class="r-char">ч</span><span class="r-char">а</span><span class="r-char">м</span><span class="r-char">а</span><span class="r-char">й</span><span class="r-char">г</span>
+                        <br>
+                        <span class="r-char">и</span><span class="r-char">н</span><span class="r-char">э</span><span class="r-char">э</span><span class="r-char">л</span><span class="r-char">г</span><span class="r-char">э</span><span class="r-char">ж</span><span class="r-char">,</span>
+                        &nbsp;
+                        <span class="r-char">а</span><span class="r-char">з</span>
+                        &nbsp;
+                        <br>
+                        <span class="r-char">ж</span><span class="r-char">а</span><span class="r-char">р</span><span class="r-char">г</span><span class="r-char">а</span><span class="r-char">л</span><span class="r-char">т</span><span class="r-char">а</span><span class="r-char">й</span>
+                        <br>
+                        <span class="r-char">б</span><span class="r-char">о</span><span class="r-char">л</span><span class="r-char">г</span><span class="r-char">о</span><span class="r-char">с</span><span class="r-char">о</span><span class="r-char">й</span>
+                        &nbsp;
+                        <span class="r-char">г</span><span class="r-char">э</span><span class="r-char">ж</span>
+                        &nbsp;
+                        <br>
+                        <span class="r-char">х</span><span class="r-char">ү</span><span class="r-char">с</span><span class="r-char">э</span><span class="r-char">ж</span>
+                        &nbsp;
+                        <span class="r-char">б</span><span class="r-char">а</span><span class="r-char">й</span><span class="r-char">н</span><span class="r-char">а</span><span class="r-char">.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e', '#00b894', '#e17055'];
+        const audio = document.getElementById('background-music'); // 2. Аудио элементийг олох
+
+        function playMusic() {
+            // 3. Дууг тоглуулах функц
+            console.log("Attempting to play music...");
+            const playPromise = audio.play();
+            console.log("Play promise:", playPromise);
+            
+            // Хөтчийн Autoplay хязгаарлалтыг давахад тусална
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Тоглож эхэлсэн
+                }).catch(error => {
+                    // Автомат тоглуулахыг хязгаарласан бол
+                    console.log("Autoplay blocked. User interaction needed.");
+                    // Аудиог дахин тоглуулахыг оролдох
+                    document.body.addEventListener('click', manualPlay, { once: true });
+                    document.body.addEventListener('keydown', manualPlay, { once: true });
+                });
+            }
+        }
+
+        function manualPlay() {
+            // Хэрэглэгч хуудсан дээр дарсан эсвэл товчлуур дарсан үед тоглуулна
+            audio.play().catch(error => console.log("Manual play failed:", error));
+            // Дахин сонсогч нэмэхгүй
+            document.body.removeEventListener('click', manualPlay);
+            document.body.removeEventListener('keydown', manualPlay);
+        }
+        function createLights() {
+            const container = document.getElementById('lights');
+            const paper = document.querySelector('.paper');
+            const rect = paper.getBoundingClientRect();
+            
+            const lightPositions = [];
+            const width = window.innerWidth;
+            let spacing = 60;
+            let offset = -40;
+            
+            if (width <= 360) {
+                spacing = 40;
+                offset = -15;
+            } else if (width <= 768) {
+                spacing = 50;
+                offset = -25;
+            }
+            
+            // Дээд тал - зүүнээс баруун тийш
+            for (let x = offset; x <= rect.width + Math.abs(offset); x += spacing) {
+                lightPositions.push({ x: x, y: offset });
+            }
+            
+            // Баруун тал - дээрээс доош
+            for (let y = spacing + offset; y <= rect.height + Math.abs(offset); y += spacing) {
+                lightPositions.push({ x: rect.width + Math.abs(offset), y: y });
+            }
+            
+            // Доод тал - баруунаас зүүн тийш
+            for (let x = rect.width + Math.abs(offset) - spacing; x >= offset; x -= spacing) {
+                lightPositions.push({ x: x, y: rect.height + Math.abs(offset) });
+            }
+            
+            // Зүүн тал - доороос дээш
+            for (let y = rect.height + Math.abs(offset) - spacing; y >= spacing + offset; y -= spacing) {
+                lightPositions.push({ x: offset, y: y });
+            }
+            
+            // Утас зурах
+            for (let i = 0; i < lightPositions.length; i++) {
+                const pos1 = lightPositions[i];
+                const pos2 = lightPositions[(i + 1) % lightPositions.length];
+                
+                const wire = document.createElement('div');
+                wire.className = 'wire-segment';
+                
+                const dx = pos2.x - pos1.x;
+                const dy = pos2.y - pos1.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                
+                wire.style.left = pos1.x + 'px';
+                wire.style.top = pos1.y + 'px';
+                wire.style.width = length + 'px';
+                wire.style.transform = `rotate(${angle}deg)`;
+                
+                container.appendChild(wire);
+            }
+            
+            // Гэрлүүд зурах
+            lightPositions.forEach((pos, i) => {
+                const lightGroup = document.createElement('div');
+                lightGroup.style.position = 'absolute';
+                lightGroup.style.left = pos.x + 'px';
+                lightGroup.style.top = pos.y + 'px';
+                
+                const light = document.createElement('div');
+                light.className = 'light';
+                
+                const color = colors[i % colors.length];
+                light.style.background = color;
+                light.style.color = color;
+                light.style.animationDelay = (i * 0.15) + 's';
+                light.style.animationDuration = (1.2 + Math.random() * 0.5) + 's';
+                
+                lightGroup.appendChild(light);
+                container.appendChild(lightGroup);
+            });
+        }
+        
+        setTimeout(createLights, 100);
+        
+        window.addEventListener('load', () => {
+             // 6. Гэрэл болон дууг эхлүүлэх
+             setTimeout(createLights, 1000);
+             playMusic(); 
+        });
+
+        // Цас үүсгэх
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * (window.innerWidth - 20) + 'px';
+            snowflake.style.animationDuration = (5 + Math.random() * 10) + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = (0.5 + Math.random() * 1) + 'em';
+            
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 15000);
+        }
+        
+        // Цас тогтмол үүсгэх
+        setInterval(createSnowflake, 200);
+        
+        // Анхны цаснууд
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createSnowflake, i * 100);
+        }
+    </script>
+</body>
+</html>
